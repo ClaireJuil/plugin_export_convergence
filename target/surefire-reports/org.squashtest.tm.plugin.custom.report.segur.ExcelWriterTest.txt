@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: org.squashtest.tm.plugin.custom.report.segur.ExcelWriterTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.333 s <<< FAILURE! - in org.squashtest.tm.plugin.custom.report.segur.ExcelWriterTest
+generateExcelFilePublication  Time elapsed: 0.082 s  <<< ERROR!
+java.lang.NullPointerException: in is null
+	at org.squashtest.tm.plugin.custom.report.segur.ExcelWriterTest.generateExcelFilePublication(ExcelWriterTest.java:221)
+
+generateExcelFilePrepublication  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException: in is null
+	at org.squashtest.tm.plugin.custom.report.segur.ExcelWriterTest.generateExcelFilePrepublication(ExcelWriterTest.java:240)
+
