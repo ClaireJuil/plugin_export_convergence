@@ -219,25 +219,32 @@ public class ExcelWriter {
 				tcIds.add(0L);
 			}
 
-			// construction d'une liste de testcase à partie de la liste des ID des
+			// construction d'une liste de testcase à partir de la liste des ID des
 			// testcases
 			List<TestCase> tcList = new ArrayList<TestCase>();
+			//EVOL CONVERGENCE => Pour éviter les lignes pour les CT obsolètes et comme le formatage n'est pas important => je n'ai pas besoin de dummy CTs
+//			for (Long tcID : tcIds) {
+//				TestCase testCase;
+//				if (tcID == 0L) {
+//					testCase = createDummyTestCase(tcID);
+//				} else {
+//					if (EXCLUDED_TC_STATUS.equals(data.getTestCases().get(tcID).getTcStatus())) {
+//						testCase = createDummyTestCase(0L);
+//					} else {
+//						testCase = data.getTestCases().get(tcID);
+//					}
+//				}
+//				tcList.add(testCase);
+			//FIN EVOL CONVERGENCE => Pour éviter les lignes pour les CT obsolètes et comme le formatage n'est pas important => je n'ai pas besoin de dummy CTs
 			for (Long tcID : tcIds) {
 				TestCase testCase;
-				if (tcID == 0L) {
-					testCase = createDummyTestCase(tcID);
-				} else {
-					if (EXCLUDED_TC_STATUS.equals(data.getTestCases().get(tcID).getTcStatus())) {
-						testCase = createDummyTestCase(0L);
-					} else {
-						testCase = data.getTestCases().get(tcID);
-					}
+				if (tcID != 0L)  {
+				testCase = data.getTestCases().get(tcID);
+				if (EXCLUDED_TC_STATUS!=testCase.getTcStatus())
+					tcList.add(testCase);
 				}
-				tcList.add(testCase);
 			}
-
 			Collections.sort(tcList);
-
 			
 			for (TestCase testCase : tcList) {
 				
@@ -496,9 +503,9 @@ public class ExcelWriter {
 			c12plus.setCellStyle(c12Style);
 			c12plus.setCellValue(extractNumberFromReference(currentStep.getReference()));
 
-			Cell resultCell = row.createCell(REM_COLUMN_NUMERO_PREUVE);
+			Cell resultCell = row.createCell(REM_COLUMN_PREUVE);
 			CellStyle c13Style = row.getSheet().getWorkbook().createCellStyle();
-			c13Style.cloneStyleFrom(style2apply.getCell(REM_COLUMN_NUMERO_PREUVE + 1).getCellStyle());
+			c13Style.cloneStyleFrom(style2apply.getCell(REM_COLUMN_PREUVE).getCellStyle());
 			c13Style.setWrapText(true);
 			resultCell.setCellStyle(c13Style);
 			resultCell.setCellValue(Parser.convertHTMLtoString(currentStep.getExpectedResult()));
