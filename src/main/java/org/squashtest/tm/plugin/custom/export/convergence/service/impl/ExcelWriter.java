@@ -179,6 +179,11 @@ public class ExcelWriter {
 		linkFont.setFontName("ARIAL");
 		linkFont.setUnderline(XSSFFont.U_SINGLE);
 		linkFont.setColor(HSSFColor.BLUE.index);
+		
+		//map avec les steps de tous les Cts
+		Map<Long, Step> steps= data.getSteps();
+		
+		
 		// boucle sur les exigences
 		for (ExcelRow req : data.getRequirements()) {
 
@@ -233,7 +238,32 @@ public class ExcelWriter {
 
 			Collections.sort(tcList);
 
+			
 			for (TestCase testCase : tcList) {
+				
+			// Construire la liste des steps du scénario	
+			List<Step> testSteps = new ArrayList<>();
+				if (testCase.getOrderedStepIds() != null) {
+					for (Long id : testCase.getOrderedStepIds()) {
+						testSteps.add(steps.get(id));
+					}
+				}
+			//ordonner la liste des steps
+			Collections.sort(testSteps);
+			
+			//step dummy si le scénario n'a pas de preuve
+			if (testSteps.size() == 0)
+			{
+				testSteps.add(new Step(0L,"",0));
+			}
+			
+			for (Step  step: testSteps) {
+				
+//				if (testSteps.size() < MAX_STEPS) {
+//					for (int i = testSteps.size(); i < MAX_STEPS; i++) {
+//						testSteps.add(new Step(Long.valueOf(i), "", i));
+//					}
+//				}
 
 //			 for (Long tcID : tcIds) {
 //			 	TestCase testCase;
@@ -247,19 +277,24 @@ public class ExcelWriter {
 //			 		}
 //			 	}
 
+				//EVOL CONVERGENCE
 				// on ecrit (ou réecrit) les colonnes sur les exigences
-				Row rowWithTC = writeRequirementRow(req, sheet, lineNumber, style2apply);
+				Row currentRow = writeRequirementRow(req, sheet, lineNumber, style2apply);
 
-				// liste des steps pour l'exigence ET le cas de test courant
-				if (testCase.getIsCoeurDeMetier()) {
-					writeCaseTestPartCoeurDeMetier(testCase, null, data.getSteps(), rowWithTC, style2apply);
-				} else { // non coeur de métier => on prends tous les steps du CT
-					writeCaseTestPart(testCase, data.getSteps(), rowWithTC, style2apply);
-				}
+				//TODO A vérif qu'il n'y a pas de scénario 'coeur de métier'
+//				if (testCase.getIsCoeurDeMetier()) {
+//					writeCaseTestPartCoeurDeMetier(testCase, null, data.getSteps(), currentRow, style2apply);
+//				} else { // non coeur de métier => on prends tous les steps du CT
+					writeCaseTestStepByStep(testCase, step, currentRow, style2apply);
+//				}
+				
+
+				//fin evol CONVERGENCE
 				lineNumber++;
-			}
-
-		} // exigences
+			}//boucle steps
+			}//boucle scénarii
+		} //boucle exigences
+		
 			// Suppression de la ligne 1 (template de style)
 		sheet.shiftRows(REM_LINE_STYLE_TEMPLATE_INDEX + 1, lineNumber - 1, -1);
 		// add borders to cells
@@ -395,7 +430,7 @@ public class ExcelWriter {
 
 	}
 
-	private void writeCaseTestPart(TestCase testcase, Map<Long, Step> steps, Row row, Row style2apply) {
+	private void writeCaseTestStepByStep(TestCase testcase, Step currentStep, Row row, Row style2apply) {
 		// ecriture des données
 		CellStyle c10Style = row.getSheet().getWorkbook().createCellStyle();
 		c10Style.cloneStyleFrom(style2apply.getCell(REM_COLUMN_NUMERO_SCENARIO).getCellStyle());
@@ -409,59 +444,65 @@ public class ExcelWriter {
 		c11Style.cloneStyleFrom(style2apply.getCell(REM_COLUMN_SCENARIO_CONFORMITE).getCellStyle());
 		c11.setCellStyle(c11Style);
 		if (testcase.getTcln_id() > 0) {
-			String content = "";
-			// if (!"".equals(testcase.getPrerequisite())) {
-			// content += "Prérequis : " +
-			// Parser.convertHTMLtoString(testcase.getPrerequisite());
-			// if (!"".equals(testcase.getDescription())) {
-			// content += Constantes.LINE_SEPARATOR
-			// + Parser.convertHTMLtoString(testcase.getDescription());
-			// }
-			// } else { // cas où une description existe sans prérequis
-			// if (!"".equals(testcase.getDescription())) {
-			// content += Parser.convertHTMLtoString(testcase.getDescription());
-			// }
-			// }
-			if (!"".equals(testcase.getDescription())) {
-				content += Parser.convertHTMLtoString(testcase.getDescription());
-			}
-			c11.setCellValue(content);
+		
+			//EVOL CONVERGENCE  =>- non utile, on prend le html brut
+//			String content = "";
+//			// if (!"".equals(testcase.getPrerequisite())) {
+//			// content += "Prérequis : " +
+//			// Parser.convertHTMLtoString(testcase.getPrerequisite());
+//			// if (!"".equals(testcase.getDescription())) {
+//			// content += Constantes.LINE_SEPARATOR
+//			// + Parser.convertHTMLtoString(testcase.getDescription());
+//			// }
+//			// } else { // cas où une description existe sans prérequis
+//			// if (!"".equals(testcase.getDescription())) {
+//			// content += Parser.convertHTMLtoString(testcase.getDescription());
+//			// }
+//			// }
+//			if (!"".equals(testcase.getDescription())) {
+//				content += Parser.convertHTMLtoString(testcase.getDescription());
+//			}
+//			c11.setCellValue(content);
+			//FIN EVOL CONVERGENCE  =>- non utile, on prend le html brut
+			//TODO fct pour correction du html brut.
+			c11.setCellValue(testcase.getDescription());
 		}
+		//EVOL CONVERGENCE  => deplacement du code
 		// les steps sont reordonnées dans la liste à partir de leur référence
-		int currentExcelColumn = REM_COLUMN_NUMERO_PREUVE;
-		List<Step> testSteps = new ArrayList<>();
-		if (testcase.getOrderedStepIds() != null) {
-			for (Long id : testcase.getOrderedStepIds()) {
-				testSteps.add(steps.get(id));
-			}
-		}
-		Collections.sort(testSteps);
-		if (testSteps.size() < MAX_STEPS) {
-			for (int i = testSteps.size(); i < MAX_STEPS; i++) {
-				testSteps.add(new Step(Long.valueOf(i), "", i));
-			}
-		}
-		for (Step step : testSteps) {
+//		int currentExcelColumn = REM_COLUMN_NUMERO_PREUVE;
+//		List<Step> testSteps = new ArrayList<>();
+//		if (testcase.getOrderedStepIds() != null) {
+//			for (Long id : testcase.getOrderedStepIds()) {
+//				testSteps.add(steps.get(id));
+//			}
+//		}
+//		Collections.sort(testSteps);
+//		if (testSteps.size() < MAX_STEPS) {
+//			for (int i = testSteps.size(); i < MAX_STEPS; i++) {
+//				testSteps.add(new Step(Long.valueOf(i), "", i));
+//			}
+//		}
+//		for (Step step : testSteps) {
 //			if (currentExcelColumn > REM_COLUMN_FIRST_NUMERO_PREUVE + MAX_STEPS * 2) {
 //				traceur.addMessage(Level.WARNING, testcase.getTcln_id(),
 //						String.format("Le test contient plus de %s preuves", MAX_STEPS));
 //				break;
 //			}
-			Cell c12plus = row.createCell(currentExcelColumn);
+		    
+		//Ecriture des données sur le step
+			Cell c12plus = row.createCell(REM_COLUMN_NUMERO_PREUVE);
 			CellStyle c12Style = row.getSheet().getWorkbook().createCellStyle();
 			c12Style.cloneStyleFrom(style2apply.getCell(REM_COLUMN_NUMERO_PREUVE).getCellStyle());
 			c12plus.setCellStyle(c12Style);
-			c12plus.setCellValue(extractNumberFromReference(step.getReference()));
-			currentExcelColumn++;
+			c12plus.setCellValue(extractNumberFromReference(currentStep.getReference()));
 
-			Cell resultCell = row.createCell(currentExcelColumn);
+			Cell resultCell = row.createCell(REM_COLUMN_NUMERO_PREUVE);
 			CellStyle c13Style = row.getSheet().getWorkbook().createCellStyle();
 			c13Style.cloneStyleFrom(style2apply.getCell(REM_COLUMN_NUMERO_PREUVE + 1).getCellStyle());
 			c13Style.setWrapText(true);
 			resultCell.setCellStyle(c13Style);
-			resultCell.setCellValue(Parser.convertHTMLtoString(step.getExpectedResult()));
-			currentExcelColumn++;
-		}
+			resultCell.setCellValue(Parser.convertHTMLtoString(currentStep.getExpectedResult()));
+//		}
 	}
 
 	private void writeCaseTestPartCoeurDeMetier(TestCase testcase, List<Long> bindedStepIds, Map<Long, Step> steps,
