@@ -1,7 +1,7 @@
 /*
  * Copyright ANS 2020-2022
  */
-package org.squashtest.tm.plugin.custom.report.segur;
+package org.squashtest.tm.plugin.custom.export.convergence;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.poi.common.usermodel.Hyperlink;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -214,14 +213,22 @@ public class ExcelWriter {
 				tcIds = bindingCT.stream().map(item -> item.getTclnId()).collect(Collectors.toList());
 			}
 
-			if (tcIds.isEmpty()) {
-				// On ajoute un test vide pour pouvoir formater les cellules
-				tcIds.add(0L);
-			}
+//			if (tcIds.isEmpty()) {
+//				// On ajoute un test vide pour pouvoir formater les cellules
+//				tcIds.add(0L);
+//			}
 
-			// construction d'une liste de testcase à partir de la liste des ID des
-			// testcases
+			// construction d'une liste de testcase à partir de la liste des IDs des testcases
 			List<TestCase> tcList = new ArrayList<TestCase>();
+			TestCase test;
+			for (Long tcID : tcIds) {
+				test = data.getTestCases().get(tcID);
+						if ("OBSOLETE"!=test.getTcStatus()/* && (0L != test.getTcln_id()*)*/ ) {
+					    	tcList.add(test);											}				
+			}
+			//on exclue les TCs Obsolètes //supprimé ligne 217  => ou les 'Dummy' créés pour une publication 'proprement formatée'
+		//	tcList = tcList.stream().filter(tc-> "OBSOLETE"!=tc.getTcStatus() /* && 0L != tc.getTcln_id()*/).collect(Collectors.toList()); 
+
 			//EVOL CONVERGENCE => Pour éviter les lignes pour les CT obsolètes et comme le formatage n'est pas important => je n'ai pas besoin de dummy CTs
 //			for (Long tcID : tcIds) {
 //				TestCase testCase;

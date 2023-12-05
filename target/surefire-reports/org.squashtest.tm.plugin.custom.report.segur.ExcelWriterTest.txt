@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
 Test set: org.squashtest.tm.plugin.custom.report.segur.ExcelWriterTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.313 s <<< FAILURE! - in org.squashtest.tm.plugin.custom.report.segur.ExcelWriterTest
-generateExcelFilePublication  Time elapsed: 0.035 s  <<< ERROR!
-java.lang.NullPointerException: in is null
-	at org.squashtest.tm.plugin.custom.report.segur.ExcelWriterTest.generateExcelFilePublication(ExcelWriterTest.java:221)
+Tests run: 3, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 1.903 s <<< FAILURE! - in org.squashtest.tm.plugin.custom.report.segur.ExcelWriterTest
+generateExcelFilePublication  Time elapsed: 1.141 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <242> but was: <9>
+	at org.squashtest.tm.plugin.custom.report.segur.ExcelWriterTest.generateExcelFilePublication(ExcelWriterTest.java:229)
 
-generateExcelFilePrepublication  Time elapsed: 0.001 s  <<< ERROR!
-java.lang.NullPointerException: in is null
-	at org.squashtest.tm.plugin.custom.report.segur.ExcelWriterTest.generateExcelFilePrepublication(ExcelWriterTest.java:240)
+generateExcelFilePrepublication  Time elapsed: 0.48 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <467> but was: <93>
+	at org.squashtest.tm.plugin.custom.report.segur.ExcelWriterTest.generateExcelFilePrepublication(ExcelWriterTest.java:249)
 
