@@ -22,7 +22,6 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFHyperlink;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
@@ -30,7 +29,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.squashtest.tm.plugin.custom.export.convergence.Constantes;
 import org.squashtest.tm.plugin.custom.export.convergence.Level;
-import org.squashtest.tm.plugin.custom.export.convergence.Message;
 import org.squashtest.tm.plugin.custom.export.convergence.Parser;
 import org.squashtest.tm.plugin.custom.export.convergence.Traceur;
 import org.squashtest.tm.plugin.custom.export.convergence.model.ExcelRow;
@@ -105,9 +103,9 @@ public class ExcelWriter {
 	/** The Constant REM_COLUMN_NUMERO_PREUVE. */
 	public static final int REM_COLUMN_PREUVE = 8;
 
-	public static final int REM_COLUMN_COMMENTAIRE = 9;
-
-	public static final int REM_COLUMN_STATUT_PUBLICATION = 10;
+//	public static final int REM_COLUMN_COMMENTAIRE = 9;
+//
+//	public static final int REM_COLUMN_STATUT_PUBLICATION = 10;
 
 	/** The Constant PREPUB_COLUMN_POINTS_DE_VERIF. */
 	// public static final int PREPUB_COLUMN_POINTS_DE_VERIF
@@ -426,19 +424,19 @@ public class ExcelWriter {
 		c9Style.setWrapText(true);
 		c9.setCellValue(Parser.convertHTMLtoString(data.getEnonceExigence_9()));
 
-		Cell c12 = row.createCell(REM_COLUMN_COMMENTAIRE);
-		CellStyle c12Style = sheet.getWorkbook().createCellStyle();
-		c12Style.cloneStyleFrom(style2apply.getCell(REM_COLUMN_COMMENTAIRE).getCellStyle());
-		c12.setCellStyle(c12Style);
-		c12Style.setWrapText(true);
-		c12.setCellValue(Parser.convertHTMLtoString(data.getCommentaire()));
-
-		Cell c13 = row.createCell(REM_COLUMN_STATUT_PUBLICATION);
-		CellStyle c13Style = sheet.getWorkbook().createCellStyle();
-		c13Style.cloneStyleFrom(style2apply.getCell(REM_COLUMN_STATUT_PUBLICATION).getCellStyle());
-		c13.setCellStyle(c13Style);
-		c13Style.setWrapText(true);
-		c13.setCellValue(data.getStatutPublication());
+//		Cell c12 = row.createCell(REM_COLUMN_COMMENTAIRE);
+//		CellStyle c12Style = sheet.getWorkbook().createCellStyle();
+//		c12Style.cloneStyleFrom(style2apply.getCell(REM_COLUMN_COMMENTAIRE).getCellStyle());
+//		c12.setCellStyle(c12Style);
+//		c12Style.setWrapText(true);
+//		c12.setCellValue(Parser.convertHTMLtoString(data.getCommentaire()));
+//
+//		Cell c13 = row.createCell(REM_COLUMN_STATUT_PUBLICATION);
+//		CellStyle c13Style = sheet.getWorkbook().createCellStyle();
+//		c13Style.cloneStyleFrom(style2apply.getCell(REM_COLUMN_STATUT_PUBLICATION).getCellStyle());
+//		c13.setCellStyle(c13Style);
+//		c13Style.setWrapText(true);
+//		c13.setCellValue(data.getStatutPublication());
 
 		return row;
 

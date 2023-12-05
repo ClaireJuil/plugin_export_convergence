@@ -1,4 +1,4 @@
-org\squashtest\tm\plugin\custom\report\segur\ExcelRowTest.class
-org\squashtest\tm\plugin\custom\report\segur\TodeleteTest.class
-org\squashtest\tm\plugin\custom\report\segur\ExcelWriterTest.class
-org\squashtest\tm\plugin\custom\report\segur\CufToExcelDataTest.class
+org\squashtest\tm\plugin\custom\export\convergence\ExcelWriterTest.class
+org\squashtest\tm\plugin\custom\export\convergence\ExcelRowTest.class
+org\squashtest\tm\plugin\custom\export\convergence\CufToExcelDataTest.class
+org\squashtest\tm\plugin\custom\export\convergence\ParserTest.class
