@@ -221,34 +221,10 @@ public class ExcelWriter {
 			TestCase test;
 			for (Long tcID : tcIds) {
 				test = data.getTestCases().get(tcID);
-						if ("OBSOLETE"!=test.getTcStatus()/* && (0L != test.getTcln_id()*)*/ ) {
+						if (EXCLUDED_TC_STATUS!=test.getTcStatus()/* && (0L != test.getTcln_id()*)*/ ) {
 					    	tcList.add(test);											}				
 			}
-			//on exclue les TCs Obsolètes //supprimé ligne 217  => ou les 'Dummy' créés pour une publication 'proprement formatée'
-		//	tcList = tcList.stream().filter(tc-> "OBSOLETE"!=tc.getTcStatus() /* && 0L != tc.getTcln_id()*/).collect(Collectors.toList()); 
 
-			//EVOL CONVERGENCE => Pour éviter les lignes pour les CT obsolètes et comme le formatage n'est pas important => je n'ai pas besoin de dummy CTs
-//			for (Long tcID : tcIds) {
-//				TestCase testCase;
-//				if (tcID == 0L) {
-//					testCase = createDummyTestCase(tcID);
-//				} else {
-//					if (EXCLUDED_TC_STATUS.equals(data.getTestCases().get(tcID).getTcStatus())) {
-//						testCase = createDummyTestCase(0L);
-//					} else {
-//						testCase = data.getTestCases().get(tcID);
-//					}
-//				}
-//				tcList.add(testCase);
-			//FIN EVOL CONVERGENCE => Pour éviter les lignes pour les CT obsolètes et comme le formatage n'est pas important => je n'ai pas besoin de dummy CTs
-			for (Long tcID : tcIds) {
-				TestCase testCase;
-				if (tcID != 0L)  {
-				testCase = data.getTestCases().get(tcID);
-				if (EXCLUDED_TC_STATUS!=testCase.getTcStatus())
-					tcList.add(testCase);
-				}
-			}
 			Collections.sort(tcList);
 			
 			for (TestCase testCase : tcList) {

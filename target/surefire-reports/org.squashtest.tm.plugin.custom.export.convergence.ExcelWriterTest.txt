@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
 Test set: org.squashtest.tm.plugin.custom.export.convergence.ExcelWriterTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 1.627 s <<< FAILURE! - in org.squashtest.tm.plugin.custom.export.convergence.ExcelWriterTest
-generateExcelFileExport  Time elapsed: 1.031 s  <<< FAILURE!
+Tests run: 3, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 1.502 s <<< FAILURE! - in org.squashtest.tm.plugin.custom.export.convergence.ExcelWriterTest
+generateExcelFileExport  Time elapsed: 0.932 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
 	at org.squashtest.tm.plugin.custom.export.convergence.ExcelWriterTest.generateExcelFileExport(ExcelWriterTest.java:242)
 
-generateConvergenceExport  Time elapsed: 0.297 s  <<< ERROR!
+generateConvergenceExport  Time elapsed: 0.257 s  <<< ERROR!
 java.lang.NullPointerException
 	at org.squashtest.tm.plugin.custom.export.convergence.ExcelWriterTest.generateConvergenceExport(ExcelWriterTest.java:278)
 

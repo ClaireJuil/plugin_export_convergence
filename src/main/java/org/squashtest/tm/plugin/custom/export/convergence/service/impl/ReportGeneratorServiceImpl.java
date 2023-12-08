@@ -119,14 +119,12 @@ public class ReportGeneratorServiceImpl implements ReportGeneratorService {
 		return perimeterData;
 	}
 	private String createOutputFileName(String trigrammeProjet, String versionOuJalon) {
-
-		// publication: REM_[trigramme projet]_version.xls => REM_HOP-RI_V1.3.xls
-		// prépublication: prepub_[datedujourJJMMAAAA]_REM_[trigramme
-		// projet]_[version].xls
-		// avec versiopn= nom du Jalon courant
-
+		
+		  DateTimeFormatter pattern = DateTimeFormatter.ofPattern("ddMMyyyy");
+          LocalDateTime nowDate = LocalDateTime.now();
+  
 		StringBuilder sFileName = new StringBuilder();
-		sFileName.append(FILE_PREFIX).append(NAME_SEPARATOR).append(trigrammeProjet).append(NAME_SEPARATOR)
+		sFileName.append(FILE_PREFIX).append(NAME_SEPARATOR).append(nowDate.format(pattern)).append(NAME_SEPARATOR).append(trigrammeProjet).append(NAME_SEPARATOR)
 				.append(versionOuJalon).append(EXTENSION);
 		return sFileName.toString();
 	}
